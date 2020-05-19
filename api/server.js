@@ -4,6 +4,8 @@ const cors = require("cors");
 const session = require("express-session");
 
 const usersRouter = require("../users/users-router.js");
+const registerRouter = require("../register/register-router.js");
+const loginRouter = require("../login/login-router.js");
 
 const server = express();
 
@@ -15,7 +17,7 @@ const sessionConfig = {
   },
   resave: false,
   saveUninitialized: process.env.USER_ALLOWED_COOKIES || true,
-  name: "monster",
+  name: "lambda",
   secret: process.env.COOKIE_SECRET || "keepitsecret,keepitsafe!",
 };
 
@@ -27,7 +29,8 @@ server.use(express.json());
 server.use(cors());
 
 server.use("/api/users", usersRouter);
-
+server.use("/api/register", registerRouter);
+server.use("/api/login", loginRouter);
 
 server.get("/", (req, res) => {
   res.json({ api: "up" });
